@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum ProjectStatus {
+  PLANNING
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  ARCHIVED
+}
+
+enum ProjectCategory {
+  COLLEGE
+  STARTUP
+  WORK
+  PERSONAL
+  SIDE_PROJECT
+  RESEARCH
+  OTHER
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+}
+
+model Project {
+  id                 String          @id @default(cuid())
+  name               String
+  shortDescription   String?
+  detailedDescription String?
+  status             ProjectStatus   @default(PLANNING)
+  category           ProjectCategory @default(PERSONAL)
+  startDate          DateTime?
+  targetDate         DateTime?
+  tags               String?
+  notes              String?
+  visibility         Visibility      @default(PRIVATE)
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  tasks    Task[]
+  ideas    Idea[]
+  thoughts Thought[]
+  writings Writing[]
+}
+
+model Task {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  dueDate     DateTime?
+  priority    TaskPriority @default(MEDIUM)
+  status      TaskStatus   @default(TODO)
+  tags        String?
+  createdAt   DateTime     @default(now())
+  completedAt DateTime?
+
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  projectId String?
+}
+
+model JournalEntry {
+  id         String     @id @default(cuid())
+  date       DateTime   @default(now())
+  didToday   String?
+  workingOn  String?
+  learned    String?
+  tomorrow   String?
+  visibility Visibility @default(PRIVATE)
+  createdAt  DateTime   @default(now())
+}
+
+model Idea {
+  id         String     @id @default(cuid())
+  title      String
+  body       String?
+  tags       String?
+  visibility Visibility @default(PRIVATE)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  projectId String?
+}
+
+model Thought {
+  id         String     @id @default(cuid())
+  body       String
+  tags       String?
+  visibility Visibility @default(PRIVATE)
+  createdAt  DateTime   @default(now())
+
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  projectId String?
+}
+
+model Writing {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  body        String
+  excerpt     String?
+  tags        String?
+  visibility  Visibility @default(PRIVATE)
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  projectId String?
+}
