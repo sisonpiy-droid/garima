@@ -18,25 +18,29 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-5xl gap-8 px-6 py-6">
-      <aside className="w-40 shrink-0">
-        <Link href="/dashboard" className="mb-6 block font-serif text-base font-semibold">
+    <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 py-6 sm:flex-row sm:gap-8">
+      <aside className="w-full shrink-0 sm:w-40">
+        <Link href="/dashboard" className="mb-4 block font-serif text-base font-semibold sm:mb-6">
           Idea Revolver
         </Link>
-        <nav className="flex flex-col gap-1 text-sm">
+        <nav className="-mx-6 flex gap-1 overflow-x-auto px-6 pb-2 text-sm sm:mx-0 sm:flex-col sm:overflow-visible sm:px-0 sm:pb-0">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="rounded-lg px-2 py-1.5 text-muted hover:bg-card hover:text-foreground">
+            <Link
+              key={l.href}
+              href={l.href}
+              className="shrink-0 whitespace-nowrap rounded-lg px-2 py-1.5 text-muted hover:bg-card hover:text-foreground"
+            >
               {l.label}
             </Link>
           ))}
         </nav>
-        <div className="mt-8 flex flex-col gap-2">
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm sm:mt-8 sm:flex-col sm:items-start sm:gap-2">
           {session?.user.role === "ADMIN" && (
-            <Link href="/admin" className="text-sm text-accent hover:underline">
+            <Link href="/admin" className="text-accent hover:underline">
               Admin
             </Link>
           )}
-          <Link href="/about" className="text-sm text-muted hover:text-foreground">
+          <Link href="/about" className="text-muted hover:text-foreground">
             View public site
           </Link>
           <SignOutButton />
