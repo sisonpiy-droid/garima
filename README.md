@@ -3,7 +3,7 @@
 A personal site and work command center: public writing/ideas/thoughts alongside
 a private workspace for tasks, projects, college work, and a daily journal.
 
-Live at: https://garima-chi.vercel.app
+Live at: https://idea-revolver.vercel.app
 
 ## Stack
 
@@ -56,6 +56,6 @@ are optional, and there's no multi-user support (one account, enforced at signup
 
 ## Deploying
 
-Connected to Vercel (`piyushs-projects-396d9e3e/garima`) with auto-deploy on
+Connected to Vercel (`piyushs-projects-396d9e3e/idea-revolver`) with auto-deploy on
 push to `main`, backed by a Neon Postgres database provisioned through the
 Vercel Marketplace integration.
