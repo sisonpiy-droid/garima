@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/session";
 import {
   formatDate,
   PROJECT_STATUS_LABELS,
@@ -13,9 +14,13 @@ export default async function AdminUserDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requireAdmin();
   const { id } = await params;
 
-  const user = await prisma.user.findUnique({ where: { id } });
+  const user = await prisma.user.findUnique({
+    where: { id },
+    select: { id: true, name: true, email: true, role: true, createdAt: true },
+  });
   if (!user) notFound();
 
   const [tasks, projects, journalEntries, ideas, writings, thoughts] = await Promise.all([

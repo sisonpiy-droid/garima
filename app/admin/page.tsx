@@ -1,11 +1,19 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/session";
 import { formatDate } from "@/lib/utils";
 
 export default async function AdminUsersPage() {
+  await requireAdmin();
+
   const users = await prisma.user.findMany({
     orderBy: { createdAt: "asc" },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      createdAt: true,
       _count: {
         select: { tasks: true, projects: true, journalEntries: true, ideas: true, writings: true, thoughts: true },
       },
