@@ -35,7 +35,7 @@ export default async function ProjectDetailPage({
     <div className="flex flex-col gap-6">
       <div>
         <p className="text-xs text-accent">{PROJECT_CATEGORY_LABELS[project.category]}</p>
-        <h1 className="text-2xl font-semibold">{project.name}</h1>
+        <h1 className="font-serif text-2xl font-semibold">{project.name}</h1>
         {project.shortDescription && <p className="text-sm text-muted">{project.shortDescription}</p>}
       </div>
 

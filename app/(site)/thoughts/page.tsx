@@ -9,7 +9,7 @@ export default async function ThoughtsIndexPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">Thoughts</h1>
+      <h1 className="font-serif text-2xl font-semibold">Thoughts</h1>
       <div className="flex flex-col divide-y divide-border">
         {thoughts.length === 0 && <p className="text-sm text-muted">No public thoughts yet.</p>}
         {thoughts.map((t) => (

@@ -9,7 +9,7 @@ export default async function JournalPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold">Journal</h1>
+        <h1 className="font-serif text-2xl font-semibold">Journal</h1>
         <p className="text-sm text-muted">Private by default. Publish an entry only if you choose to.</p>
       </div>
 

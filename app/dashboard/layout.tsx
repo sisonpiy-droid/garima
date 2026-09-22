@@ -16,8 +16,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto flex min-h-screen max-w-5xl gap-8 px-6 py-6">
       <aside className="w-40 shrink-0">
-        <Link href="/" className="mb-6 block text-sm font-semibold">
-          Garima
+        <Link href="/" className="mb-6 block font-serif text-base font-semibold">
+          Idea Revolver
         </Link>
         <nav className="flex flex-col gap-1 text-sm">
           {links.map((l) => (

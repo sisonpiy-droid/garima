@@ -14,24 +14,29 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="flex flex-col gap-12">
-      <div>
-        <h1 className="text-2xl font-semibold">Hi, I&apos;m Garima.</h1>
-        <p className="mt-2 text-muted">
-          I write, capture ideas, and build things. Here&apos;s what I&apos;ve shared publicly —
-          and <Link href="/now" className="text-accent hover:underline">what I&apos;m working on right now</Link>.
-        </p>
+    <div className="flex flex-col gap-14">
+      <div className="flex items-center gap-4">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent font-serif text-xl text-white">
+          G
+        </div>
+        <div>
+          <h1 className="font-serif text-3xl font-semibold">Garima</h1>
+          <p className="mt-1 text-muted">
+            Writing, ideas, and things I&apos;m building —{" "}
+            <Link href="/now" className="text-accent hover:underline">what I&apos;m working on right now</Link>.
+          </p>
+        </div>
       </div>
 
       <section>
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Recently Published</h2>
+        <h2 className="mb-4 font-serif text-lg font-semibold">Recently Published</h2>
         <div className="flex flex-col divide-y divide-border">
           {writings.length === 0 && <p className="text-sm text-muted">Nothing published yet.</p>}
           {writings.map((w) => (
-            <Link key={w.id} href={`/writing/${w.slug}`} className="py-3 hover:text-accent">
-              <p className="font-medium">{w.title}</p>
-              {w.excerpt && <p className="text-sm text-muted">{w.excerpt}</p>}
-              <p className="text-xs text-muted">{formatDate(w.publishedAt)}</p>
+            <Link key={w.id} href={`/writing/${w.slug}`} className="group py-5">
+              <p className="font-serif text-xl font-semibold group-hover:text-accent">{w.title}</p>
+              {w.excerpt && <p className="mt-1 text-muted">{w.excerpt}</p>}
+              <p className="mt-2 text-xs text-muted">{formatDate(w.publishedAt)}</p>
             </Link>
           ))}
         </div>
@@ -39,8 +44,8 @@ export default async function HomePage() {
 
       {ideas.length > 0 && (
         <section>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Ideas</h2>
-          <div className="flex flex-col gap-2">
+          <h2 className="mb-4 font-serif text-lg font-semibold">Ideas</h2>
+          <div className="flex flex-col gap-3">
             {ideas.map((i) => <p key={i.id} className="text-sm">{i.title}</p>)}
           </div>
         </section>
@@ -48,8 +53,8 @@ export default async function HomePage() {
 
       {thoughts.length > 0 && (
         <section>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Thoughts</h2>
-          <div className="flex flex-col gap-2">
+          <h2 className="mb-4 font-serif text-lg font-semibold">Thoughts</h2>
+          <div className="flex flex-col gap-3">
             {thoughts.map((t) => <p key={t.id} className="text-sm">{t.body}</p>)}
           </div>
         </section>

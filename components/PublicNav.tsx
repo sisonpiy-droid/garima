@@ -8,28 +8,38 @@ export async function PublicNav() {
   return (
     <header className="border-b border-border">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
-        <Link href="/" className="font-semibold tracking-tight">
-          Garima
+        <Link href="/" className="font-serif text-xl font-semibold tracking-tight">
+          Idea Revolver
         </Link>
         <nav className="flex items-center gap-5 text-sm text-muted">
-          <Link href="/writing" className="hover:text-foreground">
+          <Link href="/writing" className="hidden hover:text-foreground sm:inline">
             Writing
           </Link>
-          <Link href="/ideas" className="hover:text-foreground">
+          <Link href="/ideas" className="hidden hover:text-foreground sm:inline">
             Ideas
           </Link>
-          <Link href="/thoughts" className="hover:text-foreground">
+          <Link href="/thoughts" className="hidden hover:text-foreground sm:inline">
             Thoughts
           </Link>
-          <Link href="/now" className="hover:text-foreground">
+          <Link href="/now" className="hidden hover:text-foreground sm:inline">
             Now
           </Link>
           <Link
-            href={session ? "/dashboard" : "/login"}
-            className="rounded-full border border-border px-3 py-1 hover:text-foreground"
+            href={session ? "/dashboard/writing" : "/signup"}
+            className="rounded-full bg-foreground px-3.5 py-1.5 text-background hover:opacity-85"
           >
-            {session ? "Dashboard" : "Sign in"}
+            Write
           </Link>
+          {!session && (
+            <Link href="/login" className="hover:text-foreground">
+              Sign in
+            </Link>
+          )}
+          {session && (
+            <Link href="/dashboard" className="hover:text-foreground">
+              Dashboard
+            </Link>
+          )}
         </nav>
       </div>
     </header>

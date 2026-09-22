@@ -9,7 +9,7 @@ export default async function IdeasIndexPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">Ideas</h1>
+      <h1 className="font-serif text-2xl font-semibold">Ideas</h1>
       <div className="flex flex-col divide-y divide-border">
         {ideas.length === 0 && <p className="text-sm text-muted">No public ideas yet.</p>}
         {ideas.map((i) => (

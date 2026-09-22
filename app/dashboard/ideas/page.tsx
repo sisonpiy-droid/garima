@@ -11,7 +11,7 @@ export default async function IdeasPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">Ideas</h1>
+      <h1 className="font-serif text-2xl font-semibold">Ideas</h1>
 
       <form action={createIdea} className="rounded-2xl border border-border bg-card p-4">
         <div className="grid grid-cols-1 gap-2">

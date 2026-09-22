@@ -14,7 +14,7 @@ export default async function TasksPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">Tasks</h1>
+      <h1 className="font-serif text-2xl font-semibold">Tasks</h1>
 
       <form action={createTask} className="rounded-2xl border border-border bg-card p-4">
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">

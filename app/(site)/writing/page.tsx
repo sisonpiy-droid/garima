@@ -10,7 +10,7 @@ export default async function WritingIndexPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">Writing</h1>
+      <h1 className="font-serif text-2xl font-semibold">Writing</h1>
       <div className="flex flex-col divide-y divide-border">
         {writings.length === 0 && <p className="text-sm text-muted">Nothing published yet.</p>}
         {writings.map((w) => (
