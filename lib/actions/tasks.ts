@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { resolveOwnedProjectId } from "./helpers";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 
 function revalidateTaskViews() {
@@ -12,16 +13,16 @@ function revalidateTaskViews() {
 }
 
 export async function quickAddTask(name: string) {
-  await requireSession();
+  const session = await requireSession();
   const trimmed = name.trim();
   if (!trimmed) return;
 
-  await prisma.task.create({ data: { name: trimmed } });
+  await prisma.task.create({ data: { name: trimmed, userId: session.user.id } });
   revalidateTaskViews();
 }
 
 export async function createTask(formData: FormData) {
-  await requireSession();
+  const session = await requireSession();
 
   const name = String(formData.get("name") ?? "").trim();
   if (!name) return;
@@ -30,7 +31,8 @@ export async function createTask(formData: FormData) {
   const dueDateRaw = String(formData.get("dueDate") ?? "");
   const priority = String(formData.get("priority") ?? "MEDIUM") as TaskPriority;
   const tags = String(formData.get("tags") ?? "").trim() || null;
-  const projectId = String(formData.get("projectId") ?? "").trim() || null;
+  const rawProjectId = String(formData.get("projectId") ?? "").trim() || null;
+  const projectId = await resolveOwnedProjectId(rawProjectId, session.user.id);
 
   await prisma.task.create({
     data: {
@@ -40,6 +42,7 @@ export async function createTask(formData: FormData) {
       priority,
       tags,
       projectId,
+      userId: session.user.id,
     },
   });
 
@@ -47,10 +50,10 @@ export async function createTask(formData: FormData) {
 }
 
 export async function setTaskStatus(id: string, status: TaskStatus) {
-  await requireSession();
+  const session = await requireSession();
 
-  await prisma.task.update({
-    where: { id },
+  await prisma.task.updateMany({
+    where: { id, userId: session.user.id },
     data: {
       status,
       completedAt: status === "COMPLETED" ? new Date() : null,
@@ -61,7 +64,7 @@ export async function setTaskStatus(id: string, status: TaskStatus) {
 }
 
 export async function deleteTask(id: string) {
-  await requireSession();
-  await prisma.task.delete({ where: { id } });
+  const session = await requireSession();
+  await prisma.task.deleteMany({ where: { id, userId: session.user.id } });
   revalidateTaskViews();
 }

@@ -1,10 +1,12 @@
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 import { createJournalEntry, deleteJournalEntry, toggleJournalVisibility } from "@/lib/actions/journal";
 import { VisibilityToggle } from "@/components/VisibilityToggle";
 import { formatDate } from "@/lib/utils";
 
 export default async function JournalPage() {
-  const entries = await prisma.journalEntry.findMany({ orderBy: { date: "desc" } });
+  const userId = await requireUserId();
+  const entries = await prisma.journalEntry.findMany({ where: { userId }, orderBy: { date: "desc" } });
 
   return (
     <div className="flex flex-col gap-6">

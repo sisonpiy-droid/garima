@@ -1,12 +1,15 @@
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 import { createThought, deleteThought, toggleThoughtVisibility } from "@/lib/actions/thoughts";
 import { VisibilityToggle } from "@/components/VisibilityToggle";
 import { formatDate } from "@/lib/utils";
 
 export default async function ThoughtsPage() {
+  const userId = await requireUserId();
+
   const [thoughts, projects] = await Promise.all([
-    prisma.thought.findMany({ orderBy: { createdAt: "desc" }, include: { project: { select: { name: true } } } }),
-    prisma.project.findMany({ orderBy: { name: "asc" } }),
+    prisma.thought.findMany({ where: { userId }, orderBy: { createdAt: "desc" }, include: { project: { select: { name: true } } } }),
+    prisma.project.findMany({ where: { userId }, orderBy: { name: "asc" } }),
   ]);
 
   return (

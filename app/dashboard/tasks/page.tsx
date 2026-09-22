@@ -1,15 +1,19 @@
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 import { createTask, deleteTask } from "@/lib/actions/tasks";
 import { TaskStatusSelect } from "@/components/TaskStatusSelect";
 import { TASK_STATUS_LABELS, TASK_PRIORITY_LABELS, formatDate } from "@/lib/utils";
 
 export default async function TasksPage() {
+  const userId = await requireUserId();
+
   const [tasks, projects] = await Promise.all([
     prisma.task.findMany({
+      where: { userId },
       include: { project: { select: { name: true } } },
       orderBy: [{ status: "asc" }, { dueDate: "asc" }, { createdAt: "desc" }],
     }),
-    prisma.project.findMany({ orderBy: { name: "asc" } }),
+    prisma.project.findMany({ where: { userId }, orderBy: { name: "asc" } }),
   ]);
 
   return (

@@ -11,7 +11,7 @@ function revalidateJournalViews() {
 }
 
 export async function createJournalEntry(formData: FormData) {
-  await requireSession();
+  const session = await requireSession();
 
   await prisma.journalEntry.create({
     data: {
@@ -20,6 +20,7 @@ export async function createJournalEntry(formData: FormData) {
       learned: String(formData.get("learned") ?? "").trim() || null,
       tomorrow: String(formData.get("tomorrow") ?? "").trim() || null,
       visibility: String(formData.get("visibility") ?? "PRIVATE") as Visibility,
+      userId: session.user.id,
     },
   });
 
@@ -27,13 +28,13 @@ export async function createJournalEntry(formData: FormData) {
 }
 
 export async function deleteJournalEntry(id: string) {
-  await requireSession();
-  await prisma.journalEntry.delete({ where: { id } });
+  const session = await requireSession();
+  await prisma.journalEntry.deleteMany({ where: { id, userId: session.user.id } });
   revalidateJournalViews();
 }
 
 export async function toggleJournalVisibility(id: string, visibility: Visibility) {
-  await requireSession();
-  await prisma.journalEntry.update({ where: { id }, data: { visibility } });
+  const session = await requireSession();
+  await prisma.journalEntry.updateMany({ where: { id, userId: session.user.id }, data: { visibility } });
   revalidateJournalViews();
 }

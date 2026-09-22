@@ -73,7 +73,7 @@ export default function LoginPage() {
         New here? <Link href="/signup" className="text-accent hover:underline">Create an account</Link>
       </p>
       <p className="mt-2 text-center text-sm text-muted">
-        Just browsing? <Link href="/about" className="text-accent hover:underline">See what Garima has published</Link>
+        Just browsing? <Link href="/about" className="text-accent hover:underline">See what&apos;s been published</Link>
       </p>
     </main>
   );

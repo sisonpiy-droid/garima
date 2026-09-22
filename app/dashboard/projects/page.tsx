@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 import { createProject } from "@/lib/actions/projects";
 import {
   PROJECT_STATUS_LABELS,
@@ -7,7 +8,10 @@ import {
 } from "@/lib/utils";
 
 export default async function ProjectsPage() {
+  const userId = await requireUserId();
+
   const projects = await prisma.project.findMany({
+    where: { userId },
     orderBy: { updatedAt: "desc" },
     include: { tasks: { select: { status: true } } },
   });

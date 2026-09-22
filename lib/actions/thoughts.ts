@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { resolveOwnedProjectId } from "./helpers";
 import { Visibility } from "@prisma/client";
 
 function revalidateThoughtViews() {
@@ -12,17 +13,21 @@ function revalidateThoughtViews() {
 }
 
 export async function createThought(formData: FormData) {
-  await requireSession();
+  const session = await requireSession();
 
   const body = String(formData.get("body") ?? "").trim();
   if (!body) return;
+
+  const rawProjectId = String(formData.get("projectId") ?? "").trim() || null;
+  const projectId = await resolveOwnedProjectId(rawProjectId, session.user.id);
 
   await prisma.thought.create({
     data: {
       body,
       tags: String(formData.get("tags") ?? "").trim() || null,
       visibility: String(formData.get("visibility") ?? "PRIVATE") as Visibility,
-      projectId: String(formData.get("projectId") ?? "").trim() || null,
+      projectId,
+      userId: session.user.id,
     },
   });
 
@@ -30,13 +35,13 @@ export async function createThought(formData: FormData) {
 }
 
 export async function deleteThought(id: string) {
-  await requireSession();
-  await prisma.thought.delete({ where: { id } });
+  const session = await requireSession();
+  await prisma.thought.deleteMany({ where: { id, userId: session.user.id } });
   revalidateThoughtViews();
 }
 
 export async function toggleThoughtVisibility(id: string, visibility: Visibility) {
-  await requireSession();
-  await prisma.thought.update({ where: { id }, data: { visibility } });
+  const session = await requireSession();
+  await prisma.thought.updateMany({ where: { id, userId: session.user.id }, data: { visibility } });
   revalidateThoughtViews();
 }

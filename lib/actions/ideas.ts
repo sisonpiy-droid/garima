@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { resolveOwnedProjectId } from "./helpers";
 import { Visibility } from "@prisma/client";
 
 function revalidateIdeaViews() {
@@ -12,10 +13,13 @@ function revalidateIdeaViews() {
 }
 
 export async function createIdea(formData: FormData) {
-  await requireSession();
+  const session = await requireSession();
 
   const title = String(formData.get("title") ?? "").trim();
   if (!title) return;
+
+  const rawProjectId = String(formData.get("projectId") ?? "").trim() || null;
+  const projectId = await resolveOwnedProjectId(rawProjectId, session.user.id);
 
   await prisma.idea.create({
     data: {
@@ -23,7 +27,8 @@ export async function createIdea(formData: FormData) {
       body: String(formData.get("body") ?? "").trim() || null,
       tags: String(formData.get("tags") ?? "").trim() || null,
       visibility: String(formData.get("visibility") ?? "PRIVATE") as Visibility,
-      projectId: String(formData.get("projectId") ?? "").trim() || null,
+      projectId,
+      userId: session.user.id,
     },
   });
 
@@ -31,13 +36,13 @@ export async function createIdea(formData: FormData) {
 }
 
 export async function deleteIdea(id: string) {
-  await requireSession();
-  await prisma.idea.delete({ where: { id } });
+  const session = await requireSession();
+  await prisma.idea.deleteMany({ where: { id, userId: session.user.id } });
   revalidateIdeaViews();
 }
 
 export async function toggleIdeaVisibility(id: string, visibility: Visibility) {
-  await requireSession();
-  await prisma.idea.update({ where: { id }, data: { visibility } });
+  const session = await requireSession();
+  await prisma.idea.updateMany({ where: { id, userId: session.user.id }, data: { visibility } });
   revalidateIdeaViews();
 }

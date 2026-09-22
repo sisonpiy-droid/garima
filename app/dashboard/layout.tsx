@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { SignOutButton } from "@/components/SignOutButton";
 
 const links = [
@@ -12,7 +14,9 @@ const links = [
   { href: "/dashboard/thoughts", label: "Thoughts" },
 ];
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function DashboardLayout({ children }: { children: ReactNode }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <div className="mx-auto flex min-h-screen max-w-5xl gap-8 px-6 py-6">
       <aside className="w-40 shrink-0">
@@ -27,6 +31,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           ))}
         </nav>
         <div className="mt-8 flex flex-col gap-2">
+          {session?.user.role === "ADMIN" && (
+            <Link href="/admin" className="text-sm text-accent hover:underline">
+              Admin
+            </Link>
+          )}
           <Link href="/about" className="text-sm text-muted hover:text-foreground">
             View public site
           </Link>

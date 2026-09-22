@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 import { updateProject, deleteProject } from "@/lib/actions/projects";
 import { createTask, deleteTask } from "@/lib/actions/tasks";
 import { TaskStatusSelect } from "@/components/TaskStatusSelect";
@@ -16,8 +17,10 @@ export default async function ProjectDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const project = await prisma.project.findUnique({
-    where: { id },
+  const userId = await requireUserId();
+
+  const project = await prisma.project.findFirst({
+    where: { id, userId },
     include: {
       tasks: { orderBy: [{ status: "asc" }, { createdAt: "desc" }] },
       ideas: { orderBy: { createdAt: "desc" } },

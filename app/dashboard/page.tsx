@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { Section } from "@/components/Section";
 import { QuickAddTask } from "@/components/QuickAddTask";
 import { TaskRow } from "@/components/TaskRow";
+import { requireUserId } from "@/lib/session";
 import { formatDate, PROJECT_STATUS_LABELS } from "@/lib/utils";
 
 function greeting() {
@@ -13,26 +14,28 @@ function greeting() {
 }
 
 export default async function DashboardHome() {
+  const userId = await requireUserId();
+
   const [activeTasks, completedTasks, activeProjects, ideas, writing, thoughts] =
     await Promise.all([
       prisma.task.findMany({
-        where: { status: { in: ["TODO", "IN_PROGRESS"] } },
+        where: { userId, status: { in: ["TODO", "IN_PROGRESS"] } },
         orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
         take: 8,
       }),
       prisma.task.findMany({
-        where: { status: "COMPLETED" },
+        where: { userId, status: "COMPLETED" },
         orderBy: { completedAt: "desc" },
         take: 5,
       }),
       prisma.project.findMany({
-        where: { status: "ACTIVE" },
+        where: { userId, status: "ACTIVE" },
         orderBy: { updatedAt: "desc" },
         take: 5,
       }),
-      prisma.idea.findMany({ orderBy: { createdAt: "desc" }, take: 4 }),
-      prisma.writing.findMany({ orderBy: { createdAt: "desc" }, take: 4 }),
-      prisma.thought.findMany({ orderBy: { createdAt: "desc" }, take: 4 }),
+      prisma.idea.findMany({ where: { userId }, orderBy: { createdAt: "desc" }, take: 4 }),
+      prisma.writing.findMany({ where: { userId }, orderBy: { createdAt: "desc" }, take: 4 }),
+      prisma.thought.findMany({ where: { userId }, orderBy: { createdAt: "desc" }, take: 4 }),
     ]);
 
   return (

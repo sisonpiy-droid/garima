@@ -13,7 +13,7 @@ function revalidateProjectViews() {
 }
 
 export async function createProject(formData: FormData) {
-  await requireSession();
+  const session = await requireSession();
 
   const name = String(formData.get("name") ?? "").trim();
   if (!name) return;
@@ -28,6 +28,7 @@ export async function createProject(formData: FormData) {
       startDate: new Date(),
       tags: String(formData.get("tags") ?? "").trim() || null,
       visibility: String(formData.get("visibility") ?? "PRIVATE") as Visibility,
+      userId: session.user.id,
     },
   });
 
@@ -36,12 +37,12 @@ export async function createProject(formData: FormData) {
 }
 
 export async function updateProject(id: string, formData: FormData) {
-  await requireSession();
+  const session = await requireSession();
 
   const targetDateRaw = String(formData.get("targetDate") ?? "");
 
-  await prisma.project.update({
-    where: { id },
+  await prisma.project.updateMany({
+    where: { id, userId: session.user.id },
     data: {
       name: String(formData.get("name") ?? "").trim(),
       shortDescription: String(formData.get("shortDescription") ?? "").trim() || null,
@@ -60,8 +61,8 @@ export async function updateProject(id: string, formData: FormData) {
 }
 
 export async function deleteProject(id: string) {
-  await requireSession();
-  await prisma.project.delete({ where: { id } });
+  const session = await requireSession();
+  await prisma.project.deleteMany({ where: { id, userId: session.user.id } });
   revalidateProjectViews();
   redirect("/dashboard/projects");
 }

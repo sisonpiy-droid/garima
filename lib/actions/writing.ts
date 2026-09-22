@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { resolveOwnedProjectId } from "./helpers";
 import { Visibility } from "@prisma/client";
 import { slugify } from "@/lib/utils";
 
@@ -11,7 +12,7 @@ function revalidateWritingViews(slug?: string) {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/writing");
   revalidatePath("/writing");
-  revalidatePath("/");
+  revalidatePath("/about");
   if (slug) revalidatePath(`/writing/${slug}`);
 }
 
@@ -26,13 +27,15 @@ async function uniqueSlug(base: string) {
 }
 
 export async function createWriting(formData: FormData) {
-  await requireSession();
+  const session = await requireSession();
 
   const title = String(formData.get("title") ?? "").trim();
   if (!title) return;
 
   const visibility = String(formData.get("visibility") ?? "PRIVATE") as Visibility;
   const slug = await uniqueSlug(slugify(title));
+  const rawProjectId = String(formData.get("projectId") ?? "").trim() || null;
+  const projectId = await resolveOwnedProjectId(rawProjectId, session.user.id);
 
   await prisma.writing.create({
     data: {
@@ -43,7 +46,8 @@ export async function createWriting(formData: FormData) {
       tags: String(formData.get("tags") ?? "").trim() || null,
       visibility,
       publishedAt: visibility === "PUBLIC" ? new Date() : null,
-      projectId: String(formData.get("projectId") ?? "").trim() || null,
+      projectId,
+      userId: session.user.id,
     },
   });
 
@@ -52,15 +56,15 @@ export async function createWriting(formData: FormData) {
 }
 
 export async function deleteWriting(id: string, slug: string) {
-  await requireSession();
-  await prisma.writing.delete({ where: { id } });
+  const session = await requireSession();
+  await prisma.writing.deleteMany({ where: { id, userId: session.user.id } });
   revalidateWritingViews(slug);
 }
 
 export async function toggleWritingVisibility(id: string, slug: string, visibility: Visibility) {
-  await requireSession();
-  await prisma.writing.update({
-    where: { id },
+  const session = await requireSession();
+  await prisma.writing.updateMany({
+    where: { id, userId: session.user.id },
     data: {
       visibility,
       publishedAt: visibility === "PUBLIC" ? new Date() : null,

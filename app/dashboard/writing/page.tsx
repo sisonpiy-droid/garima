@@ -1,12 +1,15 @@
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 import { createWriting, deleteWriting, toggleWritingVisibility } from "@/lib/actions/writing";
 import { VisibilityToggle } from "@/components/VisibilityToggle";
 import { formatDate } from "@/lib/utils";
 
 export default async function WritingPage() {
+  const userId = await requireUserId();
+
   const [writings, projects] = await Promise.all([
-    prisma.writing.findMany({ orderBy: { createdAt: "desc" }, include: { project: { select: { name: true } } } }),
-    prisma.project.findMany({ orderBy: { name: "asc" } }),
+    prisma.writing.findMany({ where: { userId }, orderBy: { createdAt: "desc" }, include: { project: { select: { name: true } } } }),
+    prisma.project.findMany({ where: { userId }, orderBy: { name: "asc" } }),
   ]);
 
   return (
