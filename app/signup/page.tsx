@@ -45,7 +45,7 @@ export default function SignupPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-6">
-      <Link href="/" className="mb-8 font-serif text-lg font-semibold">
+      <Link href="/about" className="mb-8 font-serif text-lg font-semibold">
         Idea Revolver
       </Link>
       <h1 className="mb-1 text-xl font-semibold">Create your account</h1>

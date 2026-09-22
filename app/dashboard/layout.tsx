@@ -16,7 +16,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto flex min-h-screen max-w-5xl gap-8 px-6 py-6">
       <aside className="w-40 shrink-0">
-        <Link href="/" className="mb-6 block font-serif text-base font-semibold">
+        <Link href="/dashboard" className="mb-6 block font-serif text-base font-semibold">
           Idea Revolver
         </Link>
         <nav className="flex flex-col gap-1 text-sm">
@@ -26,7 +26,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </Link>
           ))}
         </nav>
-        <div className="mt-8">
+        <div className="mt-8 flex flex-col gap-2">
+          <Link href="/about" className="text-sm text-muted hover:text-foreground">
+            View public site
+          </Link>
           <SignOutButton />
         </div>
       </aside>
