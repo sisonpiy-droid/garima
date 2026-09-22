@@ -3,18 +3,14 @@ import { prisma } from "@/lib/prisma";
 import { Section } from "@/components/Section";
 import { QuickAddTask } from "@/components/QuickAddTask";
 import { TaskRow } from "@/components/TaskRow";
-import { requireUserId } from "@/lib/session";
+import { Greeting } from "@/components/Greeting";
+import { requireSessionOrRedirect } from "@/lib/session";
 import { formatDate, PROJECT_STATUS_LABELS } from "@/lib/utils";
 
-function greeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
-}
-
 export default async function DashboardHome() {
-  const userId = await requireUserId();
+  const session = await requireSessionOrRedirect();
+  const userId = session.user.id;
+  const displayName = session.user.name || session.user.email?.split("@")[0] || "there";
 
   const [activeTasks, completedTasks, activeProjects, ideas, writing, thoughts] =
     await Promise.all([
@@ -41,7 +37,7 @@ export default async function DashboardHome() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="font-serif text-2xl font-semibold">{greeting()} 👋</h1>
+        <Greeting name={displayName} />
         <p className="text-sm text-muted">Here&apos;s where things stand today.</p>
       </div>
 

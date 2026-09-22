@@ -14,6 +14,13 @@ export async function requireUserId() {
   return session.user.id;
 }
 
+/** For page components: like requireSession, but redirects instead of throwing. */
+export async function requireSessionOrRedirect() {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/login");
+  return session;
+}
+
 export async function requireAdmin() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
