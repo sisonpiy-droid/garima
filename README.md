@@ -4,10 +4,10 @@ A personal site and work command center for one person (Garima). The
 homepage is fully public — no login wall — and opens straight into a
 Reddit-style feed of whatever she's chosen to publish (writing, ideas,
 thoughts), introduced in her own voice. Behind that sits a private workspace
-for tasks, projects, college work, and a daily journal, reachable through a
-quiet "Sign in" link at the very bottom of the page rather than a prominent
-nav button. There's also an admin account that can see everything, including
-private content, so the owner isn't the only person who can help maintain it.
+for tasks, projects, college work, and a daily journal, reachable by clicking
+the waving-hand emoji in the hero rather than a prominent "Sign in" button.
+There's also an admin account that can see everything, including private
+content, so the owner isn't the only person who can help maintain it.
 
 Live at: https://garima-khurana.vercel.app
 
@@ -39,6 +39,10 @@ There is no public signup. The account matching `ADMIN_EMAIL` is the admin;
 sign in at `/login` once it exists (create it directly in the database or
 via `prisma studio` the first time). From `/admin`, the admin can create the
 one owner account (Garima's) — there's a form there when no owner exists yet.
+It only asks for her name and email; a one-time password is generated
+automatically and shown once for the admin to share with her directly. She's
+required to set her own password the first time she signs in (`mustChangePassword`
+on the `User` row), after which the one-time password no longer works.
 
 ## Roles
 
@@ -65,8 +69,10 @@ password is stored as a bcrypt hash, never in plaintext).
   published writing/ideas/thoughts (only content marked **Public** is shown).
   `/writing`, `/ideas`, `/thoughts`, `/now` are the same content split out by
   type
-- `/login` — sign-in, linked only from a small "Sign in" line at the bottom
-  of every public page (no public signup)
+- `/login` — sign-in, reachable by clicking the waving-hand emoji in the
+  hero (no public signup)
+- `/change-password` — shown instead of the dashboard until a one-time
+  password has been replaced with a real one
 - `/dashboard/*` — the owner's private workspace; this is the "Write"
   destination after signing in
 - `/admin`, `/admin/users/[id]` — admin-only: create the owner account if it

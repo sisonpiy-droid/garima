@@ -11,6 +11,7 @@ export async function requireSession() {
 export async function requireUserId() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
+  if (session.user.mustChangePassword) redirect("/change-password");
   return session.user.id;
 }
 
@@ -18,6 +19,7 @@ export async function requireUserId() {
 export async function requireSessionOrRedirect() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
+  if (session.user.mustChangePassword) redirect("/change-password");
   return session;
 }
 
