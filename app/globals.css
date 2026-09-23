@@ -2,11 +2,11 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #f7f5f0;
-  --foreground: #22262a;
+  --background: #fdf5f7;
+  --foreground: #2a1e22;
   --card: #ffffff;
-  --border: #e3e0d8;
-  --muted: #6b7280;
+  --border: #f0dce3;
+  --muted: #8a7278;
   --accent: #c2255c;
   --accent-ink: #ffffff;
   --accent-soft: #c2255c1a;
@@ -28,13 +28,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #23262b;
-    --foreground: #f2f1ec;
-    --card: #2b2f35;
-    --border: #3a3f46;
-    --muted: #a3a9b0;
+    --background: #241a1f;
+    --foreground: #f5e9ed;
+    --card: #2c2126;
+    --border: #3d2c33;
+    --muted: #b09aa1;
     --accent: #f472b6;
-    --accent-ink: #3b0a1e;
+    --accent-ink: #2a0f18;
     --accent-soft: #f472b61f;
   }
 }
