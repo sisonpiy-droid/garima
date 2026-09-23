@@ -44,7 +44,7 @@ export default async function AdminUserDetailPage({
 
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Tasks ({tasks.length})</h2>
-        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
           {tasks.length === 0 && <p className="p-4 text-sm text-muted">None.</p>}
           {tasks.map((t) => (
             <div key={t.id} className="p-3 text-sm">
@@ -61,7 +61,7 @@ export default async function AdminUserDetailPage({
 
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Projects ({projects.length})</h2>
-        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
           {projects.length === 0 && <p className="p-4 text-sm text-muted">None.</p>}
           {projects.map((p) => (
             <div key={p.id} className="p-3 text-sm">
@@ -75,7 +75,7 @@ export default async function AdminUserDetailPage({
 
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Journal ({journalEntries.length})</h2>
-        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
           {journalEntries.length === 0 && <p className="p-4 text-sm text-muted">None.</p>}
           {journalEntries.map((e) => (
             <div key={e.id} className="p-3 text-sm">
@@ -91,7 +91,7 @@ export default async function AdminUserDetailPage({
 
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Ideas ({ideas.length})</h2>
-        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
           {ideas.length === 0 && <p className="p-4 text-sm text-muted">None.</p>}
           {ideas.map((i) => (
             <div key={i.id} className="p-3 text-sm">
@@ -104,7 +104,7 @@ export default async function AdminUserDetailPage({
 
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Writing ({writings.length})</h2>
-        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
           {writings.length === 0 && <p className="p-4 text-sm text-muted">None.</p>}
           {writings.map((w) => (
             <div key={w.id} className="p-3 text-sm">
@@ -117,7 +117,7 @@ export default async function AdminUserDetailPage({
 
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Thoughts ({thoughts.length})</h2>
-        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
           {thoughts.length === 0 && <p className="p-4 text-sm text-muted">None.</p>}
           {thoughts.map((t) => (
             <div key={t.id} className="p-3 text-sm">

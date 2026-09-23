@@ -32,7 +32,7 @@ export default async function AdminUsersPage() {
 
       {!hasOwner && <CreateOwnerForm />}
 
-      <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+      <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
         {users.map((u) => (
           <Link key={u.id} href={`/admin/users/${u.id}`} className="flex items-center justify-between gap-4 p-4 hover:bg-background">
             <div>

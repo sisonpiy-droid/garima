@@ -17,7 +17,7 @@ export function TaskRow({ task, showProject }: { task: Task & { project?: { name
           startTransition(() => setTaskStatus(task.id, done ? "TODO" : "COMPLETED"))
         }
         className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] ${
-          done ? "border-accent bg-accent text-white" : "border-border"
+          done ? "border-accent bg-accent text-accent-ink" : "border-border"
         }`}
       >
         {done ? "✓" : ""}

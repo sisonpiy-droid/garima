@@ -16,7 +16,7 @@ export default async function WritingPage() {
     <div className="flex flex-col gap-6">
       <h1 className="font-serif text-2xl font-semibold">Writing</h1>
 
-      <details className="rounded-2xl border border-border bg-card p-4">
+      <details className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4">
         <summary className="cursor-pointer text-sm font-medium">+ New writing</summary>
         <form action={createWriting} className="mt-3 flex flex-col gap-2">
           <input name="title" required placeholder="Title" className="rounded-lg border border-border bg-background px-3 py-2 text-sm" />
@@ -33,11 +33,11 @@ export default async function WritingPage() {
               <option value="PUBLIC">Publish now</option>
             </select>
           </div>
-          <button type="submit" className="self-start rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-white">Save</button>
+          <button type="submit" className="self-start rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-accent-ink">Save</button>
         </form>
       </details>
 
-      <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+      <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
         {writings.length === 0 && <p className="p-4 text-sm text-muted">Nothing drafted yet.</p>}
         {writings.map((w) => (
           <div key={w.id} className="p-4">

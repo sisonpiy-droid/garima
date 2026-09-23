@@ -20,7 +20,7 @@ export default async function TasksPage() {
     <div className="flex flex-col gap-6">
       <h1 className="font-serif text-2xl font-semibold">Tasks</h1>
 
-      <form action={createTask} className="rounded-2xl border border-border bg-card p-4">
+      <form action={createTask} className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4">
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <input name="name" required placeholder="Task name" className="rounded-lg border border-border bg-background px-3 py-2 text-sm" />
           <input name="tags" placeholder="Tags (comma separated)" className="rounded-lg border border-border bg-background px-3 py-2 text-sm" />
@@ -38,12 +38,12 @@ export default async function TasksPage() {
           </select>
           <textarea name="description" placeholder="Description (optional)" className="rounded-lg border border-border bg-background px-3 py-2 text-sm sm:col-span-2" rows={2} />
         </div>
-        <button type="submit" className="mt-3 rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-white">
+        <button type="submit" className="mt-3 rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-accent-ink">
           Add task
         </button>
       </form>
 
-      <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+      <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
         {tasks.length === 0 && <p className="p-4 text-sm text-muted">No tasks yet.</p>}
         {tasks.map((t) => (
           <div key={t.id} className="flex flex-wrap items-center gap-3 p-3">

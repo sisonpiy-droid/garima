@@ -42,7 +42,7 @@ export default async function ProjectDetailPage({
         {project.shortDescription && <p className="text-sm text-muted">{project.shortDescription}</p>}
       </div>
 
-      <section className="rounded-2xl border border-border bg-card p-4">
+      <section className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4">
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted">Tasks</h2>
         <div className="flex flex-col divide-y divide-border">
           {project.tasks.length === 0 && <p className="py-2 text-sm text-muted">No tasks yet.</p>}
@@ -62,7 +62,7 @@ export default async function ProjectDetailPage({
           <select name="priority" defaultValue="MEDIUM" className="rounded-lg border border-border bg-background px-2 py-1.5 text-sm">
             {Object.entries(TASK_PRIORITY_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
           </select>
-          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-white">Add</button>
+          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-accent-ink">Add</button>
         </form>
       </section>
 
@@ -83,7 +83,7 @@ export default async function ProjectDetailPage({
         </section>
       )}
 
-      <section className="rounded-2xl border border-border bg-card p-4">
+      <section className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4">
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">Edit project</h2>
         <form action={boundUpdate} className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <input name="name" defaultValue={project.name} required className="rounded-lg border border-border bg-background px-3 py-2 text-sm sm:col-span-2" />
@@ -102,7 +102,7 @@ export default async function ProjectDetailPage({
             <option value="PUBLIC">Public (shown on /now)</option>
           </select>
           <textarea name="notes" defaultValue={project.notes ?? ""} placeholder="Notes" rows={3} className="rounded-lg border border-border bg-background px-3 py-2 text-sm sm:col-span-2" />
-          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-white sm:col-span-2">Save changes</button>
+          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-accent-ink sm:col-span-2">Save changes</button>
         </form>
         <p className="mt-2 text-xs text-muted">Started {formatDate(project.startDate)}</p>
         <form action={deleteProject.bind(null, project.id)} className="mt-4 border-t border-border pt-4">

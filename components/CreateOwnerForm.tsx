@@ -34,7 +34,7 @@ export function CreateOwnerForm() {
   }
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4">
       <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-muted">Create the owner account</h2>
       <p className="mb-3 text-xs text-muted">
         There&apos;s no owner account yet. Create it here, then share the email and password with her
@@ -67,7 +67,7 @@ export function CreateOwnerForm() {
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-lg bg-accent px-3 py-2 text-sm font-medium text-white disabled:opacity-60"
+          className="rounded-lg bg-accent px-3 py-2 text-sm font-medium text-accent-ink disabled:opacity-60"
         >
           {submitting ? "Creating..." : "Create account"}
         </button>

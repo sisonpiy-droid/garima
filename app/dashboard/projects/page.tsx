@@ -20,7 +20,7 @@ export default async function ProjectsPage() {
     <div className="flex flex-col gap-6">
       <h1 className="font-serif text-2xl font-semibold">Projects</h1>
 
-      <details className="rounded-2xl border border-border bg-card p-4">
+      <details className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4">
         <summary className="cursor-pointer text-sm font-medium">+ New project</summary>
         <form action={createProject} className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
           <input name="name" required placeholder="Project name" className="rounded-lg border border-border bg-background px-3 py-2 text-sm sm:col-span-2" />
@@ -36,7 +36,7 @@ export default async function ProjectsPage() {
             <option value="PRIVATE">Private</option>
             <option value="PUBLIC">Public (shown on /now)</option>
           </select>
-          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-white sm:col-span-2">
+          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-accent-ink sm:col-span-2">
             Create project
           </button>
         </form>
@@ -47,7 +47,7 @@ export default async function ProjectsPage() {
         {projects.map((p) => {
           const done = p.tasks.filter((t) => t.status === "COMPLETED").length;
           return (
-            <Link key={p.id} href={`/dashboard/projects/${p.id}`} className="rounded-2xl border border-border bg-card p-4 hover:border-accent">
+            <Link key={p.id} href={`/dashboard/projects/${p.id}`} className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4 hover:border-accent">
               <div className="mb-1 flex items-center justify-between">
                 <p className="font-medium">{p.name}</p>
                 <span className="text-xs text-accent">{PROJECT_STATUS_LABELS[p.status]}</span>

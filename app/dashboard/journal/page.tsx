@@ -15,7 +15,7 @@ export default async function JournalPage() {
         <p className="text-sm text-muted">Private by default. Publish an entry only if you choose to.</p>
       </div>
 
-      <form action={createJournalEntry} className="rounded-2xl border border-border bg-card p-4">
+      <form action={createJournalEntry} className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4">
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <textarea name="didToday" placeholder="What did I do today?" rows={2} className="rounded-lg border border-border bg-background px-3 py-2 text-sm" />
           <textarea name="workingOn" placeholder="What am I working on?" rows={2} className="rounded-lg border border-border bg-background px-3 py-2 text-sm" />
@@ -27,14 +27,14 @@ export default async function JournalPage() {
             <option value="PRIVATE">Private</option>
             <option value="PUBLIC">Public</option>
           </select>
-          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-white">Save entry</button>
+          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-accent-ink">Save entry</button>
         </div>
       </form>
 
       <div className="flex flex-col gap-3">
         {entries.length === 0 && <p className="text-sm text-muted">No entries yet.</p>}
         {entries.map((e) => (
-          <div key={e.id} className="rounded-2xl border border-border bg-card p-4">
+          <div key={e.id} className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4">
             <div className="mb-2 flex items-center justify-between">
               <p className="text-xs text-muted">{formatDate(e.date)}</p>
               <div className="flex items-center gap-2">

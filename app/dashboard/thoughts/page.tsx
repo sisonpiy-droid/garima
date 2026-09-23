@@ -16,7 +16,7 @@ export default async function ThoughtsPage() {
     <div className="flex flex-col gap-6">
       <h1 className="font-serif text-2xl font-semibold">Thoughts</h1>
 
-      <form action={createThought} className="rounded-2xl border border-border bg-card p-4">
+      <form action={createThought} className="rounded-2xl border border-border bg-card shadow-sm shadow-black/5 p-4">
         <textarea name="body" required placeholder="A few things I've been thinking about..." rows={2} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm" />
         <div className="mt-2 flex flex-wrap gap-2">
           <input name="tags" placeholder="Tags" className="rounded-lg border border-border bg-background px-3 py-2 text-sm" />
@@ -28,11 +28,11 @@ export default async function ThoughtsPage() {
             <option value="PRIVATE">Private</option>
             <option value="PUBLIC">Public</option>
           </select>
-          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-white">Save thought</button>
+          <button type="submit" className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-accent-ink">Save thought</button>
         </div>
       </form>
 
-      <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
+      <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card shadow-sm shadow-black/5">
         {thoughts.length === 0 && <p className="p-4 text-sm text-muted">Nothing here yet.</p>}
         {thoughts.map((t) => (
           <div key={t.id} className="p-4">
