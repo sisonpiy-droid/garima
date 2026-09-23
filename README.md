@@ -9,7 +9,7 @@ quiet "Sign in" link at the very bottom of the page rather than a prominent
 nav button. There's also an admin account that can see everything, including
 private content, so the owner isn't the only person who can help maintain it.
 
-Live at: https://idea-revolver.vercel.app
+Live at: https://garimas-mind.vercel.app
 
 ## Stack
 
@@ -84,6 +84,6 @@ relationships between projects/tasks/ideas/writing/thoughts are optional.
 
 ## Deploying
 
-Connected to Vercel (`piyushs-projects-396d9e3e/idea-revolver`) with auto-deploy on
+Connected to Vercel (`piyushs-projects-396d9e3e/garimas-mind`) with auto-deploy on
 push to `main`, backed by a Neon Postgres database provisioned through the
 Vercel Marketplace integration.
