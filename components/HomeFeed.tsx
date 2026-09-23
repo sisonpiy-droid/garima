@@ -10,20 +10,92 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export function HomeHero({ children }: { children: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
+export function HomeHero({
+  avatarLetter,
+  heading,
+  emoji,
+  tagline,
+}: {
+  avatarLetter: string;
+  heading: string;
+  emoji?: string;
+  tagline: ReactNode;
+}) {
+  const avatarRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const taglineRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (!ref.current) return;
-    gsap.killTweensOf(ref.current);
-    gsap.fromTo(
-      ref.current,
-      { opacity: 0, y: 14 },
-      { opacity: 1, y: 0, duration: 0.7, ease: "power2.out", clearProps: "opacity,transform" }
-    );
-  }, []);
+    if (!avatarRef.current || !headingRef.current || !taglineRef.current) return;
 
-  return <div ref={ref}>{children}</div>;
+    const words = Array.from(headingRef.current.querySelectorAll<HTMLElement>("[data-word]"));
+    const targets = [avatarRef.current, ...words, taglineRef.current];
+    gsap.killTweensOf(targets);
+
+    const tl = gsap.timeline();
+    tl.fromTo(
+      avatarRef.current,
+      { opacity: 0, scale: 0.6, rotate: -8 },
+      { opacity: 1, scale: 1, rotate: 0, duration: 0.6, ease: "back.out(1.7)", clearProps: "all" }
+    )
+      .fromTo(
+        words,
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          ease: "power2.out",
+          stagger: 0.04,
+          clearProps: "opacity,transform",
+        },
+        "-=0.3"
+      )
+      .fromTo(
+        taglineRef.current,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", clearProps: "opacity,transform" },
+        "-=0.15"
+      );
+
+    return () => {
+      tl.kill();
+    };
+  }, [heading]);
+
+  const words = heading.split(" ");
+
+  return (
+    <div className="flex items-center gap-4">
+      <div
+        ref={avatarRef}
+        className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent font-serif text-xl text-accent-ink"
+      >
+        {avatarLetter}
+      </div>
+      <div>
+        <h1 ref={headingRef} className="font-serif text-3xl font-semibold">
+          {words.map((word, i) => (
+            <span key={i}>
+              <span data-word className="inline-block">
+                {word}
+              </span>
+              {i < words.length - 1 ? " " : ""}
+            </span>
+          ))}
+          {emoji && (
+            <>
+              {" "}
+              <span className="animate-wave">{emoji}</span>
+            </>
+          )}
+        </h1>
+        <p ref={taglineRef} className="mt-1 text-muted">
+          {tagline}
+        </p>
+      </div>
+    </div>
+  );
 }
 
 type Post =
@@ -68,7 +140,12 @@ export function HomeFeed({ posts }: { posts: Post[] }) {
       {posts.map((post) => {
         if (post.type === "writing") {
           return (
-            <Link key={post.key} href={post.href} data-feed-item className="group py-5">
+            <Link
+              key={post.key}
+              href={post.href}
+              data-feed-item
+              className="group py-5 transition-transform duration-200 hover:-translate-y-0.5"
+            >
               <p className="font-serif text-xl font-semibold group-hover:text-accent">{post.title}</p>
               {post.excerpt && <p className="mt-1 text-muted">{post.excerpt}</p>}
               <p className="mt-2 text-xs text-muted">Writing &middot; {post.dateLabel}</p>

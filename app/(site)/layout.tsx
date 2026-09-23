@@ -13,9 +13,11 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">{children}</main>
       <footer className="border-t border-border py-6 text-center text-xs text-muted">
         <p>Garima&apos;s Mind</p>
-        <Link href={session ? "/dashboard" : "/login"} className="mt-1 inline-block hover:text-foreground">
-          {session ? "Dashboard" : "Sign in"}
-        </Link>
+        {session && (
+          <Link href="/dashboard" className="mt-1 inline-block hover:text-foreground">
+            Dashboard
+          </Link>
+        )}
       </footer>
     </>
   );

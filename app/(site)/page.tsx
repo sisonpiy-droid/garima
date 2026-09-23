@@ -45,20 +45,17 @@ export default async function RootPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      <HomeHero>
-        <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent font-serif text-xl text-accent-ink">
-            G
-          </div>
-          <div>
-            <h1 className="font-serif text-3xl font-semibold">Hi, I&apos;m Garima 👋</h1>
-            <p className="mt-1 text-muted">
-              Welcome to inside my brain — writing, ideas, and things I&apos;m building, out in the open. See{" "}
-              <Link href="/now" className="text-accent hover:underline">what I&apos;m working on right now</Link>.
-            </p>
-          </div>
-        </div>
-      </HomeHero>
+      <HomeHero
+        avatarLetter="G"
+        heading="Hi, I'm Garima"
+        emoji="👋"
+        tagline={
+          <>
+            Welcome to inside my brain — writing, ideas, and things I&apos;m building, out in the open. See{" "}
+            <Link href="/now" className="text-accent hover:underline">what I&apos;m working on right now</Link>.
+          </>
+        }
+      />
 
       <HomeFeed posts={posts} />
     </div>
