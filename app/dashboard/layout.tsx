@@ -21,7 +21,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
     <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 py-6 sm:flex-row sm:gap-8">
       <aside className="w-full shrink-0 sm:w-40">
         <Link href="/dashboard" className="mb-4 block font-serif text-base font-semibold sm:mb-6">
-          Idea Revolver
+          Garima&apos;s Mind
         </Link>
         <nav className="-mx-6 flex gap-1 overflow-x-auto px-6 pb-2 text-sm sm:mx-0 sm:flex-col sm:overflow-visible sm:px-0 sm:pb-0">
           {links.map((l) => (
@@ -40,7 +40,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
               Admin
             </Link>
           )}
-          <Link href="/about" className="text-muted hover:text-foreground">
+          <Link href="/" className="text-muted hover:text-foreground">
             View public site
           </Link>
           <SignOutButton />

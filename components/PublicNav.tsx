@@ -8,8 +8,8 @@ export async function PublicNav() {
   return (
     <header className="border-b border-border">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
-        <Link href="/about" className="font-serif text-xl font-semibold tracking-tight">
-          Idea Revolver
+        <Link href="/" className="font-serif text-xl font-semibold tracking-tight">
+          Garima&apos;s Mind
         </Link>
         <nav className="flex items-center gap-5 text-sm text-muted">
           <Link href="/writing" className="hidden hover:text-foreground sm:inline">
@@ -24,7 +24,7 @@ export async function PublicNav() {
           <Link href="/now" className="hidden hover:text-foreground sm:inline">
             Now
           </Link>
-          {session ? (
+          {session && (
             <>
               <Link
                 href="/dashboard/writing"
@@ -36,13 +36,6 @@ export async function PublicNav() {
                 Dashboard
               </Link>
             </>
-          ) : (
-            <Link
-              href="/login"
-              className="rounded-full bg-foreground px-3.5 py-1.5 text-background hover:opacity-85"
-            >
-              Sign in
-            </Link>
           )}
         </nav>
       </div>

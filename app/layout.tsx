@@ -19,8 +19,8 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Idea Revolver",
-  description: "A place to write, capture ideas, and get work done.",
+  title: "Garima's Mind",
+  description: "Writing, ideas, and things being built, out in the open.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

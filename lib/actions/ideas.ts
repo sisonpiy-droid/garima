@@ -10,6 +10,7 @@ function revalidateIdeaViews() {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/ideas");
   revalidatePath("/ideas");
+  revalidatePath("/");
 }
 
 export async function createIdea(formData: FormData) {

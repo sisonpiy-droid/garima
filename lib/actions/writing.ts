@@ -12,7 +12,7 @@ function revalidateWritingViews(slug?: string) {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/writing");
   revalidatePath("/writing");
-  revalidatePath("/about");
+  revalidatePath("/");
   if (slug) revalidatePath(`/writing/${slug}`);
 }
 

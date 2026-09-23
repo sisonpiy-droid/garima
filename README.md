@@ -1,10 +1,13 @@
-# Idea Revolver
+# Garima's Mind
 
-A personal site and work command center for one person (Garima): a public
-writing/ideas/thoughts profile alongside a private workspace for tasks,
-projects, college work, and a daily journal. There's also an admin account
-that can see everything, including private content, so the owner isn't the
-only person who can help maintain it.
+A personal site and work command center for one person (Garima). The
+homepage is fully public — no login wall — and opens straight into a
+Reddit-style feed of whatever she's chosen to publish (writing, ideas,
+thoughts), introduced in her own voice. Behind that sits a private workspace
+for tasks, projects, college work, and a daily journal, reachable through a
+quiet "Sign in" link at the very bottom of the page rather than a prominent
+nav button. There's also an admin account that can see everything, including
+private content, so the owner isn't the only person who can help maintain it.
 
 Live at: https://idea-revolver.vercel.app
 
@@ -40,9 +43,9 @@ one owner account (Garima's) — there's a form there when no owner exists yet.
 ## Roles
 
 - **Owner** (role `USER`, at most one ever exists): the private workspace
-  (tasks/projects/journal/ideas/writing/thoughts) and the public profile at
-  `/about` are both hers. Whatever she marks Public is what shows up on
-  `/about`, `/writing`, `/ideas`, `/thoughts`, and `/now`.
+  (tasks/projects/journal/ideas/writing/thoughts) is hers, and whatever she
+  marks Public is what shows up on the homepage feed and `/writing`,
+  `/ideas`, `/thoughts`, `/now`.
 - **Admin**: the account matching `ADMIN_EMAIL`. Can open `/admin` to see the
   owner's **entire** workspace, including private content. This is visible to
   the owner as a known capability of the app, not a hidden backdoor.
@@ -58,9 +61,12 @@ password is stored as a bcrypt hash, never in plaintext).
 
 ## Structure
 
-- `/about`, `/writing`, `/ideas`, `/thoughts`, `/now` — the owner's public
-  profile and feed (only content marked **Public** is shown)
-- `/login` — sign-in (no public signup)
+- `/` — the public homepage: intro + a unified, reverse-chronological feed of
+  published writing/ideas/thoughts (only content marked **Public** is shown).
+  `/writing`, `/ideas`, `/thoughts`, `/now` are the same content split out by
+  type
+- `/login` — sign-in, linked only from a small "Sign in" line at the bottom
+  of every public page (no public signup)
 - `/dashboard/*` — the owner's private workspace; this is the "Write"
   destination after signing in
 - `/admin`, `/admin/users/[id]` — admin-only: create the owner account if it

@@ -10,6 +10,7 @@ function revalidateThoughtViews() {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/thoughts");
   revalidatePath("/thoughts");
+  revalidatePath("/");
 }
 
 export async function createThought(formData: FormData) {

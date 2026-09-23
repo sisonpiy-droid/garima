@@ -36,8 +36,8 @@ export default function LoginPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-6">
-      <Link href="/about" className="mb-8 font-serif text-lg font-semibold">
-        Idea Revolver
+      <Link href="/" className="mb-8 font-serif text-lg font-semibold">
+        Garima&apos;s Mind
       </Link>
       <h1 className="mb-1 text-xl font-semibold">Sign in</h1>
       <p className="mb-6 text-sm text-muted">Welcome back.</p>
@@ -70,7 +70,7 @@ export default function LoginPage() {
       </form>
 
       <p className="mt-6 text-center text-sm text-muted">
-        Just browsing? <Link href="/about" className="text-accent hover:underline">See what&apos;s been published</Link>
+        Just browsing? <Link href="/" className="text-accent hover:underline">See what&apos;s been published</Link>
       </p>
     </main>
   );
