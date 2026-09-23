@@ -12,13 +12,9 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <PublicNav />
       <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">{children}</main>
       <footer className="border-t border-border py-6 text-center text-xs text-muted">
-        <span>Garima&apos;s Mind </span>
-        <Link
-          href={session ? "/dashboard" : "/login"}
-          aria-label={session ? "Dashboard" : "Sign in"}
-          className="text-muted/40 hover:text-muted"
-        >
-          &middot;
+        <p>Garima&apos;s Mind</p>
+        <Link href={session ? "/dashboard" : "/login"} className="mt-1 inline-block hover:text-foreground">
+          {session ? "Dashboard" : "Sign in"}
         </Link>
       </footer>
     </>
