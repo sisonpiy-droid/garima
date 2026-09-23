@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 
@@ -6,7 +5,6 @@ export default async function IdeasIndexPage() {
   const ideas = await prisma.idea.findMany({
     where: { visibility: "PUBLIC" },
     orderBy: { createdAt: "desc" },
-    include: { user: { select: { id: true, name: true, email: true } } },
   });
 
   return (
@@ -18,12 +16,7 @@ export default async function IdeasIndexPage() {
           <div key={i.id} className="py-4">
             <p className="font-medium">{i.title}</p>
             {i.body && <p className="text-sm text-muted">{i.body}</p>}
-            <p className="text-xs text-muted">
-              <Link href={`/u/${i.user.id}`} className="hover:text-accent">
-                {i.user.name || i.user.email.split("@")[0]}
-              </Link>{" "}
-              · {formatDate(i.createdAt)}
-            </p>
+            <p className="text-xs text-muted">{formatDate(i.createdAt)}</p>
           </div>
         ))}
       </div>

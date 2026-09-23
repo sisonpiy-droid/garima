@@ -6,7 +6,6 @@ export default async function WritingIndexPage() {
   const writings = await prisma.writing.findMany({
     where: { visibility: "PUBLIC" },
     orderBy: { publishedAt: "desc" },
-    include: { user: { select: { id: true, name: true, email: true } } },
   });
 
   return (
@@ -15,18 +14,11 @@ export default async function WritingIndexPage() {
       <div className="flex flex-col divide-y divide-border">
         {writings.length === 0 && <p className="text-sm text-muted">Nothing published yet.</p>}
         {writings.map((w) => (
-          <div key={w.id} className="py-4">
-            <Link href={`/writing/${w.slug}`} className="group">
-              <p className="font-medium group-hover:text-accent">{w.title}</p>
-              {w.excerpt && <p className="text-sm text-muted">{w.excerpt}</p>}
-            </Link>
-            <p className="text-xs text-muted">
-              <Link href={`/u/${w.user.id}`} className="hover:text-accent">
-                {w.user.name || w.user.email.split("@")[0]}
-              </Link>{" "}
-              · {formatDate(w.publishedAt)}
-            </p>
-          </div>
+          <Link key={w.id} href={`/writing/${w.slug}`} className="group py-4">
+            <p className="font-medium group-hover:text-accent">{w.title}</p>
+            {w.excerpt && <p className="text-sm text-muted">{w.excerpt}</p>}
+            <p className="text-xs text-muted">{formatDate(w.publishedAt)}</p>
+          </Link>
         ))}
       </div>
     </div>

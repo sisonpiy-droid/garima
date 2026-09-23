@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 
@@ -6,7 +5,6 @@ export default async function ThoughtsIndexPage() {
   const thoughts = await prisma.thought.findMany({
     where: { visibility: "PUBLIC" },
     orderBy: { createdAt: "desc" },
-    include: { user: { select: { id: true, name: true, email: true } } },
   });
 
   return (
@@ -17,12 +15,7 @@ export default async function ThoughtsIndexPage() {
         {thoughts.map((t) => (
           <div key={t.id} className="py-4">
             <p className="text-sm">{t.body}</p>
-            <p className="text-xs text-muted">
-              <Link href={`/u/${t.user.id}`} className="hover:text-accent">
-                {t.user.name || t.user.email.split("@")[0]}
-              </Link>{" "}
-              · {formatDate(t.createdAt)}
-            </p>
+            <p className="text-xs text-muted">{formatDate(t.createdAt)}</p>
           </div>
         ))}
       </div>

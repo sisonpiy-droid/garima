@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/session";
+import { CreateOwnerForm } from "@/components/CreateOwnerForm";
 import { formatDate } from "@/lib/utils";
 
 export default async function AdminUsersPage() {
   await requireAdmin();
+
+  const hasOwner = (await prisma.user.count({ where: { role: "USER" } })) > 0;
 
   const users = await prisma.user.findMany({
     orderBy: { createdAt: "asc" },
@@ -26,6 +29,8 @@ export default async function AdminUsersPage() {
         <h1 className="font-serif text-2xl font-semibold">All accounts</h1>
         <p className="text-sm text-muted">{users.length} registered {users.length === 1 ? "account" : "accounts"}.</p>
       </div>
+
+      {!hasOwner && <CreateOwnerForm />}
 
       <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-card">
         {users.map((u) => (

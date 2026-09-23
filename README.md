@@ -1,8 +1,10 @@
 # Idea Revolver
 
-A multi-user personal site and work command center: each account gets a
-public writing/ideas/thoughts profile alongside a private workspace for
-tasks, projects, college work, and a daily journal.
+A personal site and work command center for one person (Garima): a public
+writing/ideas/thoughts profile alongside a private workspace for tasks,
+projects, college work, and a daily journal. There's also an admin account
+that can see everything, including private content, so the owner isn't the
+only person who can help maintain it.
 
 Live at: https://idea-revolver.vercel.app
 
@@ -10,7 +12,7 @@ Live at: https://idea-revolver.vercel.app
 
 - Next.js 16 (App Router), TypeScript, Tailwind CSS
 - Prisma + Postgres (Neon)
-- NextAuth (Credentials provider), open signup with per-account data isolation
+- NextAuth (Credentials provider)
 
 ## Setup
 
@@ -23,26 +25,30 @@ Edit `.env`:
 - `DATABASE_URL` / `DATABASE_URL_UNPOOLED` — a Postgres connection string (e.g.
   from Neon, Supabase, or `vercel env pull`)
 - `NEXTAUTH_SECRET` — any random string (used to sign session cookies)
-- `ADMIN_EMAIL` — the email that automatically becomes an admin account at
-  signup (see Roles below)
+- `ADMIN_EMAIL` — the one email allowed to hold the admin role (see Roles below)
 
 ```bash
 npx prisma migrate dev --name init   # applies the schema
 npm run dev                           # http://localhost:3000
 ```
 
-Visit `/signup` to create an account, then sign in at `/login`.
+There is no public signup. The account matching `ADMIN_EMAIL` is the admin;
+sign in at `/login` once it exists (create it directly in the database or
+via `prisma studio` the first time). From `/admin`, the admin can create the
+one owner account (Garima's) — there's a form there when no owner exists yet.
 
 ## Roles
 
-- **User** (default): a private workspace (tasks/projects/journal/ideas/
-  writing/thoughts) visible only to them, plus a public profile at `/u/[id]`
-  showing whatever they've marked Public.
-- **Admin**: whoever signs up with the email in `ADMIN_EMAIL` gets this role
-  automatically. Admins can open `/admin` to see every account and, per
-  account, their **entire** workspace — including private content. This is
-  visible to the account holder as a known capability of the app, not a
-  hidden backdoor.
+- **Owner** (role `USER`, at most one ever exists): the private workspace
+  (tasks/projects/journal/ideas/writing/thoughts) and the public profile at
+  `/about` are both hers. Whatever she marks Public is what shows up on
+  `/about`, `/writing`, `/ideas`, `/thoughts`, and `/now`.
+- **Admin**: the account matching `ADMIN_EMAIL`. Can open `/admin` to see the
+  owner's **entire** workspace, including private content. This is visible to
+  the owner as a known capability of the app, not a hidden backdoor.
+
+There is intentionally no open registration — `/api/signup` only works for an
+admin session, and only until the one owner account exists.
 
 ## Inspecting the database
 
@@ -52,23 +58,23 @@ password is stored as a bcrypt hash, never in plaintext).
 
 ## Structure
 
-- `/about`, `/writing`, `/ideas`, `/thoughts`, `/now` — public, platform-wide
-  feed of everything marked **Public**, across all accounts
-- `/u/[id]` — an individual account's public profile
-- `/signup`, `/login` — account creation and sign-in
-- `/dashboard/*` — the signed-in user's private workspace; this is the
-  "Write" destination after signing in
-- `/admin`, `/admin/users/[id]` — admin-only account list and full per-user
-  data view
+- `/about`, `/writing`, `/ideas`, `/thoughts`, `/now` — the owner's public
+  profile and feed (only content marked **Public** is shown)
+- `/login` — sign-in (no public signup)
+- `/dashboard/*` — the owner's private workspace; this is the "Write"
+  destination after signing in
+- `/admin`, `/admin/users/[id]` — admin-only: create the owner account if it
+  doesn't exist yet, and view her full workspace, including private content
 - `lib/actions/*` — Next.js Server Actions used for all create/update/delete
-  operations, always scoped to the signed-in user's own data
-- `prisma/schema.prisma` — data model
+  operations, scoped to the signed-in user's own data
+- `prisma/schema.prisma` — data model (still keyed by `userId` under the
+  hood, even though there's only ever one real owner)
 
 ## Design principle
 
-Kept intentionally lightweight — not a project-management tool. Tags are plain
-comma-separated text, relationships between projects/tasks/ideas/writing/thoughts
-are optional.
+Kept intentionally lightweight — not a project-management tool, and not a
+public community platform. Tags are plain comma-separated text, and
+relationships between projects/tasks/ideas/writing/thoughts are optional.
 
 ## Deploying
 
