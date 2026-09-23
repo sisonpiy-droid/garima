@@ -14,11 +14,13 @@ export function HomeHero({
   avatarLetter,
   heading,
   emoji,
+  authHref,
   tagline,
 }: {
   avatarLetter: string;
   heading: string;
   emoji?: string;
+  authHref: string;
   tagline: ReactNode;
 }) {
   const avatarRef = useRef<HTMLDivElement>(null);
@@ -86,7 +88,9 @@ export function HomeHero({
           {emoji && (
             <>
               {" "}
-              <span className="animate-wave">{emoji}</span>
+              <Link href={authHref} aria-label="Sign in" className="animate-wave">
+                {emoji}
+              </Link>
             </>
           )}
         </h1>

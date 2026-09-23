@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { LockIcon } from "./LockIcon";
 
 export async function PublicNav() {
   const session = await getServerSession(authOptions);
@@ -22,16 +21,9 @@ export async function PublicNav() {
           <Link href="/thoughts" className="hidden hover:text-foreground sm:inline">
             Thoughts
           </Link>
-          <span className="flex items-center gap-1.5">
-            <Link href="/now" className="hover:text-foreground">
-              Now
-            </Link>
-            {!session && (
-              <Link href="/login" aria-label="Sign in" className="text-muted/50 hover:text-accent">
-                <LockIcon />
-              </Link>
-            )}
-          </span>
+          <Link href="/now" className="hover:text-foreground">
+            Now
+          </Link>
           {session && (
             <>
               <Link

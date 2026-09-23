@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { HomeHero, HomeFeed } from "@/components/HomeFeed";
 
 export default async function RootPage() {
+  const session = await getServerSession(authOptions);
+
   const [writings, ideas, thoughts] = await Promise.all([
     prisma.writing.findMany({ where: { visibility: "PUBLIC" }, orderBy: { publishedAt: "desc" }, take: 20 }),
     prisma.idea.findMany({ where: { visibility: "PUBLIC" }, orderBy: { createdAt: "desc" }, take: 20 }),
@@ -49,6 +53,7 @@ export default async function RootPage() {
         avatarLetter="G"
         heading="Hi, I'm Garima"
         emoji="👋"
+        authHref={session ? "/dashboard" : "/login"}
         tagline={
           <>
             Welcome to inside my brain — writing, ideas, and things I&apos;m building, out in the open. See{" "}
