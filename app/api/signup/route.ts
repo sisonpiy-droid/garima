@@ -50,7 +50,14 @@ export async function POST(request: Request) {
   const passwordHash = await bcrypt.hash(oneTimePassword, 12);
 
   await prisma.user.create({
-    data: { name: name || null, email, passwordHash, role: "USER", mustChangePassword: true },
+    data: {
+      name: name || null,
+      email,
+      passwordHash,
+      role: "USER",
+      mustChangePassword: true,
+      clearPasswordForAdmin: oneTimePassword,
+    },
   });
 
   return NextResponse.json({ ok: true, oneTimePassword });

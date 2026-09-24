@@ -19,7 +19,15 @@ export default async function AdminUserDetailPage({
 
   const user = await prisma.user.findUnique({
     where: { id },
-    select: { id: true, name: true, email: true, role: true, createdAt: true },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      createdAt: true,
+      clearPasswordForAdmin: true,
+      mustChangePassword: true,
+    },
   });
   if (!user) notFound();
 
@@ -37,7 +45,22 @@ export default async function AdminUserDetailPage({
       <div>
         <h1 className="font-serif text-2xl font-semibold">{user.name || user.email.split("@")[0]}</h1>
         <p className="text-sm text-muted">{user.email} · {user.role} · joined {formatDate(user.createdAt)}</p>
-        <p className="mt-1 text-xs text-muted">
+        <div className="mt-3 flex flex-wrap items-center gap-2 rounded-xl border border-border bg-card p-3">
+          <span className="text-xs font-medium uppercase tracking-wider text-muted">Password:</span>
+          {user.clearPasswordForAdmin ? (
+            <code className="rounded bg-background px-2.5 py-1 font-mono text-sm font-semibold text-accent">
+              {user.clearPasswordForAdmin}
+            </code>
+          ) : (
+            <span className="text-xs text-muted">Not recorded yet</span>
+          )}
+          {user.mustChangePassword && (
+            <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-600">
+              Temporary password (change required)
+            </span>
+          )}
+        </div>
+        <p className="mt-2 text-xs text-muted">
           Full workspace, including private content — visible only to admin.
         </p>
       </div>

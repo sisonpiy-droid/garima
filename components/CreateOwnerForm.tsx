@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 
 export function CreateOwnerForm() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("Garima");
+  const [email, setEmail] = useState("garimakhurana121@gmail.com");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ email: string; oneTimePassword: string } | null>(null);

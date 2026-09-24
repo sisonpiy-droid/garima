@@ -17,6 +17,8 @@ export default async function AdminUsersPage() {
       email: true,
       role: true,
       createdAt: true,
+      clearPasswordForAdmin: true,
+      mustChangePassword: true,
       _count: {
         select: { tasks: true, projects: true, journalEntries: true, ideas: true, writings: true, thoughts: true },
       },
@@ -41,6 +43,13 @@ export default async function AdminUsersPage() {
                 {u.role === "ADMIN" && <span className="ml-2 rounded-full border border-accent px-2 py-0.5 text-xs text-accent">Admin</span>}
               </p>
               <p className="text-sm text-muted">{u.email}</p>
+              {u.clearPasswordForAdmin && (
+                <p className="mt-1 text-xs">
+                  <span className="text-muted">Password: </span>
+                  <code className="rounded bg-background px-1.5 py-0.5 font-mono text-accent">{u.clearPasswordForAdmin}</code>
+                  {u.mustChangePassword && <span className="ml-1 text-amber-600">(temporary)</span>}
+                </p>
+              )}
               <p className="mt-1 text-xs text-muted">Joined {formatDate(u.createdAt)}</p>
             </div>
             <p className="shrink-0 text-xs text-muted">
